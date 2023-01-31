@@ -7,6 +7,7 @@
 
 #include <string>
 #include <ctime>
+#include "Movements.h"
 
 class Account {
 private:
@@ -14,6 +15,7 @@ private:
     std::string userSurname;
     std::string iban;
     float amount;
+    Movements movement;
 
 public:
     Account(std::string name, std::string surname) {
