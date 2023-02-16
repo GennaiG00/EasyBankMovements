@@ -14,11 +14,12 @@ std::vector <std::string> File::getRowFile(const std::string &name, const std::s
     return tmpVector;
 }
 
-void File::openFile(const std::string &fileName, const std::string& path) {
+std::FILE* File::openFile(const std::string &fileName, const std::string &path) {
+    std::FILE *file;
     std::string txt = ".txt";
-    chain = path + fileName + txt;
+    std::string chain = path + fileName + txt;
     const char *tmp_chain = chain.c_str();
-    file = fopen(tmp_chain, "a+");
+    return fopen(tmp_chain, "a+");
 }
 
 void File::closeFile() {
