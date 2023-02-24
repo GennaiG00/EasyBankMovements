@@ -7,14 +7,14 @@
 
 #include <string>
 #include <ctime>
+#include "../Subject.h"
 
-class Account {
+class Account : public Subject {
 private:
     std::string userName;
     std::string userSurname;
     std::string iban;
     float amount;
-    Movements movement;
 
 public:
     Account(std::string name, std::string surname) {
@@ -26,6 +26,8 @@ public:
     }
 
     std::string createIban();
+
+    void makeMovement(float money, bool movement);
 };
 
 #endif //BANK_ACCOUNT_H

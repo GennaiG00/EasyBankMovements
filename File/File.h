@@ -19,10 +19,6 @@ private:
 
 public:
     File() = default;
-//
-//    File(const File &right) = delete;
-//
-//    File &operator=(File &right) = delete;
 
     std::FILE* openFile(const std::string &fileName, const std::string &path);
 

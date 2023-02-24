@@ -20,13 +20,17 @@ public:
         this->surname = surname;
     };
 
-    const std::string &getName() const;
-
-    const std::string &getSurname() const;
-
     void createAccount(){
         account = new Account(name, surname);
     };
+
+    void addMoneyToPersonalAccount(float money, bool movement = true);
+
+    void doBankTransfer(float money, std::string &iban);
+
+    void withdrawMoneyToPersonalAccount(float money);
+
+    std::string& getAmountFromAccount();
 
 };
 

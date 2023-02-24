@@ -24,3 +24,7 @@ std::string Account::createIban() {
     }
     return iban;
 }
+
+void Account::makeMovement(float money, bool movement) {
+
+}

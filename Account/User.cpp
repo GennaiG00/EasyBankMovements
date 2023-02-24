@@ -4,10 +4,6 @@
 
 #include "User.h"
 
-const std::string &User::getName() const {
-    return name;
-}
-
-const std::string &User::getSurname() const {
-    return surname;
+void User::addMoneyToPersonalAccount(float money, bool movement) {
+    account->makeMovement(money, movement);
 }
