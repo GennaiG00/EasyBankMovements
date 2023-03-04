@@ -5,21 +5,34 @@
 #ifndef BANK_MOVEMENTS_H
 #define BANK_MOVEMENTS_H
 
-#include "../File/MovementsClientFile.h"
-#include "../Observer.h"
+#include <string>
+#include <list>
+#include "../Subject.h"
 
-class Movements : public Observer {
+class Movements : public Subject{
 private:
     float balancingItem = 0;
-
+    std::list<Observer*> observers;
 public:
     Movements(float balancingItem){
         this->balancingItem = balancingItem;
     }
 
-    void addMoney(const std::string &iban, float money);
 
-    void subMoney(const std::string &iban, float money);
+
+    float addMoneyToPersonalAccount(float money);
+
+    float subMoneyToPersonalAccount(float money);
+
+    float makeMovementFromAnotherAccount(float money, std::string &iban);
+
+    float getAmount(){
+        return balancingItem;
+    }
+
+    virtual void subscribe(Observer* o) override;
+    virtual void unsubscribe(Observer* o) override;
+    virtual void notify() override;
 
 };
 

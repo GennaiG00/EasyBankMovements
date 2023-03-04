@@ -7,14 +7,19 @@
 
 #include <string>
 #include <ctime>
-#include "../Subject.h"
+#include <list>
+#include "../File/MovementsClientFile.h"
+#include "../Observer.h"
 
-class Account : public Subject {
+//TODO: creare un account manager che con l'observer aggiorna la lista di iban
+
+class Account : public Observer{
 private:
     std::string userName;
     std::string userSurname;
     std::string iban;
     float amount;
+    MovementsClientFile accountFile;
 
 public:
     Account(std::string name, std::string surname) {
@@ -27,7 +32,7 @@ public:
 
     std::string createIban();
 
-    void makeMovement(float money, bool movement);
+    void makeMovement(float money, bool typeOfMovement, std::string iban = "");
 };
 
 #endif //BANK_ACCOUNT_H

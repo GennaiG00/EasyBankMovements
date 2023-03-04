@@ -4,16 +4,18 @@
 
 #include "Movements.h"
 
-void Movements::addMoney(const std::string &iban, float money) {
+float Movements::addMoneyToPersonalAccount(float money) {
     balancingItem += money;
+    return balancingItem;
 //    tmpValue = std::stof(movementsFile.getAmount(iban));
 //    tmpValue += money;
 //    movementsFile.addMovements(std::to_string(tmpValue),iban);
 }
 
-void Movements::subMoney(const std::string &iban, float money) {
+float Movements::subMoneyToPersonalAccount(float money) {
     if(balancingItem>=money){
         balancingItem -= money;
+        return balancingItem;
     }else{
         throw ("You have no more MONEY!!!");
     }
@@ -25,4 +27,22 @@ void Movements::subMoney(const std::string &iban, float money) {
 //    }else{
 //        throw "You have no more MONEY!!!";
 //    }
+}
+
+float Movements::makeMovementFromAnotherAccount(float money, std::string &iban) {
+    return 0;
+}
+
+void Movements::subscribe(Observer *o) {
+    observers.push_back(o);
+}
+
+void Movements::unsubscribe(Observer *o) {
+    observers.remove(o);
+}
+
+void Movements::notify() {
+    for(auto itr = std::begin(observers); itr != std::end(observers); itr++){
+        (*itr)->update();
+    }
 }

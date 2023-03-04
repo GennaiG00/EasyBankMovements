@@ -2,6 +2,7 @@
 // Created by utente on 18/01/2023.
 //
 
+#include <sstream>
 #include "Account.h"
 #include "../Utility.h"
 
@@ -25,6 +26,22 @@ std::string Account::createIban() {
     return iban;
 }
 
-void Account::makeMovement(float money, bool movement) {
-
+void Account::makeMovement(float money, bool typeOfMovement, std::string iban) {
+    std::stringstream stream;
+    if(iban.empty()){
+        if(typeOfMovement) {
+            stream << movement->addMoneyToPersonalAccount(money);
+            accountFile.addMovements(stream.str(), this->iban);
+        }
+        else{
+            stream << movement->subMoneyToPersonalAccount(money);
+            accountFile.addMovements(stream.str(), this->iban);
+        }
+    }else{
+        if(typeOfMovement) {
+            stream << movement->makeMovementFromAnotherAccount(money, iban);
+            accountFile.addMovements(stream.str(), )
+        }
+    }
 }
+
