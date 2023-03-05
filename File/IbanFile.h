@@ -12,11 +12,15 @@ class IbanFile : public File{
 public:
     static IbanFile* getInstance();
 
-    bool checkIban(const std::string &iban, const std::string &path);
+    bool checkIban(const std::string &iban);
 
     void addIban(const std::string &iban);
+
+    std::vector<std::string> returnAllIban();
+
 private:
     static IbanFile* instance;
+    std::string ibanFileName = "IbanFile";
 };
 
 IbanFile* IbanFile::instance = nullptr;

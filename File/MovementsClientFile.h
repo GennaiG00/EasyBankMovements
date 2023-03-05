@@ -9,10 +9,20 @@
 #include "File.h"
 
 class MovementsClientFile : public File{
+private:
+    std::string iban;
 public:
+    MovementsClientFile(std::string &iban){
+        this->iban = iban;
+        openFile(iban);
+    }
+
     void addMovements(const std::string &money, const std::string &iban);
 
     std::string& getAmount(const std::string &iban);
+
+    std::vector<std::string> getData();
+
 };
 
 

@@ -1,6 +1,6 @@
-#include <iostream>
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+//    auto user = new User("Gian_Maria" , "Gennai");
+//    user->createAccount();
     return 0;
 }

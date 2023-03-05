@@ -19,20 +19,31 @@ private:
     std::string userSurname;
     std::string iban;
     float amount;
-    MovementsClientFile accountFile;
+    MovementsClientFile *accountFile;
 
 public:
-    Account(std::string name, std::string surname) {
-        userName = name;
+    Account(std::string &name, std::string &surname, std::string &iban, float amount, MovementsClientFile* movementsClientFile) {
+        userSurname = name;
         userSurname = surname;
-        iban = new char[27];
-        iban[27] = '\0';
-        iban = createIban();
+        this->amount = amount;
+        accountFile = movementsClientFile;
     }
+
+    virtual ~Account(){
+        accountFile->closeFile();
+    };
 
     std::string createIban();
 
     void makeMovement(float money, bool typeOfMovement, std::string iban = "");
+
+    float getAmount();
+
+    const std::string &getIban() const;
+
+    virtual void update(float money, bool addMoney) override;
+    virtual void attach() override;
+    virtual void detach() override;
 };
 
 #endif //BANK_ACCOUNT_H

@@ -40,9 +40,9 @@ void Movements::subscribe(Observer *o) {
 void Movements::unsubscribe(Observer *o) {
     observers.remove(o);
 }
-
-void Movements::notify() {
-    for(auto itr = std::begin(observers); itr != std::end(observers); itr++){
-        (*itr)->update();
-    }
-}
+//
+//void Movements::notify() {
+//    for(auto itr = std::begin(observers); itr != std::end(observers); itr++){
+//        (*itr)->update();
+//    }
+//}

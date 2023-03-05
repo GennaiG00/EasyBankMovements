@@ -4,8 +4,8 @@
 
 #include "IbanFile.h"
 
-bool IbanFile::checkIban(const std::string &iban, const std::string &path) {
-        std::vector <std::string> tmpVector = getRowFile("iban", path);
+bool IbanFile::checkIban(const std::string &iban) {
+        std::vector <std::string> tmpVector = getRowFile("iban");
         for (int i = 0; i < tmpVector.size(); i++) {
             if (iban == tmpVector[i]) {
                 return true;
@@ -17,11 +17,15 @@ bool IbanFile::checkIban(const std::string &iban, const std::string &path) {
 
 
 void IbanFile::addIban(const std::string &iban) {
-    updateFile(iban, "iban", "./Data/");
+    updateFile(iban, "iban");
 }
 
 IbanFile *IbanFile::getInstance() {
     if(instance == nullptr)
         instance = new IbanFile();
     return instance;
+}
+
+std::vector<std::string> IbanFile::returnAllIban() {
+    return getRowFile(ibanFileName);
 }

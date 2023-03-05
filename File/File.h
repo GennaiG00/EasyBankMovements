@@ -13,14 +13,14 @@
 class File {
 private:
     std::FILE *file;
-    std::string chain;
+    std::string path = "../Bank/Data/";
     char *fileString = new char();
     char *combine = new char();
 
 public:
     File() = default;
 
-    std::FILE* openFile(const std::string &fileName, const std::string &path);
+    std::FILE* openFile(const std::string &fileName);
 
     void closeFile();
 
@@ -30,11 +30,11 @@ public:
     }
 
 protected:
-    std::vector<std::string> getRowFile(const std::string &name, const std::string &path);
+    std::vector<std::string> getRowFile(const std::string &name);
 
-    char *read(const std::string &name, const std::string &path);
+    char *read(const std::string &name);
 
-    void updateFile(const std::string &update, const std::string &name, const std::string& path);
+    void updateFile(const std::string &update, const std::string &name);
 };
 
 
