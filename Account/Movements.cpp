@@ -3,46 +3,45 @@
 //
 
 #include "Movements.h"
+#include "../File/ClientFile.h"
+#include <sstream>
+#include <iostream>
 
-float Movements::addMoneyToPersonalAccount(float money) {
-    balancingItem += money;
-    return balancingItem;
-//    tmpValue = std::stof(movementsFile.getAmount(iban));
-//    tmpValue += money;
-//    movementsFile.addMovements(std::to_string(tmpValue),iban);
-}
+Movements* Movements::instance = nullptr;
 
-float Movements::subMoneyToPersonalAccount(float money) {
-    if(balancingItem>=money){
-        balancingItem -= money;
-        return balancingItem;
-    }else{
-        throw ("You have no more MONEY!!!");
+void Movements::makeMovementFromAnotherAccount(const float money,const std::string &toIban,const std::string &fromIban) {
+    bool equal = false;
+    for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){
+        if(*ptr == toIban)
+            equal = true;
     }
-//    float tmpValue;
-//    tmpValue = std::stof(movementsFile.getAmount(iban));
-//    if(tmpValue>=money) {
-//        tmpValue -= money;
-//        movementsFile.addMovements(std::to_string(tmpValue), iban);
-//    }else{
-//        throw "You have no more MONEY!!!";
-//    }
+    if(equal){
+        ClientFile clientFileFrom(fromIban);
+        ClientFile clientFileTo(toIban);
+        std::stringstream s;
+        s << money;
+        clientFileFrom.addMovements(s.str(), false);
+        clientFileTo.addMovements(s.str(), true);
+    }else{
+        throw "iban non trovato";
+    }
 }
 
-float Movements::makeMovementFromAnotherAccount(float money, std::string &iban) {
-    return 0;
+void Movements::addIban(const std::string& newIban) {
+    bool equal = false;
+    for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){
+        if(*ptr == newIban)
+            equal = true;
+    }
+    if(!equal){
+        iban.push_back(newIban);
+    }
+    for(auto i : iban)
+        std::cout << i;
 }
 
-void Movements::subscribe(Observer *o) {
-    observers.push_back(o);
+Movements* Movements::getInstance() {
+    if(instance == nullptr)
+        instance = new Movements;
+    return instance;
 }
-
-void Movements::unsubscribe(Observer *o) {
-    observers.remove(o);
-}
-//
-//void Movements::notify() {
-//    for(auto itr = std::begin(observers); itr != std::end(observers); itr++){
-//        (*itr)->update();
-//    }
-//}

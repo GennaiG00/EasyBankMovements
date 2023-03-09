@@ -1,35 +1,38 @@
 //
 // Created by utente on 18/01/2023.
 //
-
+//
 #include "User.h"
-#include "../File/IbanFile.h"
 
-void User::addMoneyToPersonalAccount(float money) {
-    account->update(money, true);
+
+void User::addFounds(float money) {
+    account->addMoney(money);
 }
 
-void User::withdrawMoneyToPersonalAccount(float money) {
-    account->update(money, false);
+void User::makeATransfer(float money,const std::string &iban) {
+    Movements::getInstance()->makeMovementFromAnotherAccount(money, iban, account->getIban());
 }
 
-void User::subscribe(Observer *o) {
-    observers.push_back(o);
+void User::withdrawMoney(float money) {
+    account->subMoney(money);
 }
 
-void User::unsubscribe(Observer *o) {
-    observers.remove(o);
+const std::string &User::getIbanFromAccount() {
+    return account->getIban();
 }
-//
-//void User::notify() {
-//    for( auto itr = std::begin(observers); itr != std::end(observers); itr++)
-//        (*itr)->update();
-//}
 
-//void User::doBankTransfer(float money, std::string &iban, Account account) {
-//    IbanFile ibanFile;
-//    if(ibanFile.checkIban(iban)){
-//        account->update(money, false);
-//
-//    }
-//}
+const std::string &User::getAmountFromAccount() {
+    return account->getAmount();
+}
+
+const std::string &User::getName() const {
+    return name;
+}
+
+const std::string &User::getSurname() const {
+    return surname;
+}
+
+void User::setAccount(Account *account) {
+    User::account = account;
+}

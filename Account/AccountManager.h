@@ -5,30 +5,41 @@
 #ifndef BANK_ACCOUNTMANAGER_H
 #define BANK_ACCOUNTMANAGER_H
 
-
+#include <map>
+#include <vector>
 #include "../File/IbanFile.h"
-#include "../File/MovementsClientFile.h"
+#include "../File/ClientFile.h"
+#include "Movements.h"
 #include "Account.h"
+#include "User.h"
 
-class AccountManager {
+class User;
+
+class AccountManager{
 private:
     IbanFile ibanFile;
-    std::vector<std::string> allIban;
-    std::vector<Account*> accounts;
+    std::map<std::string, Account*> accounts;
+
 public:
     AccountManager(){
-        allIban = ibanFile.returnAllIban();
-        for(int i=0; i<allIban.size(); i++){
-            auto clientFile = new MovementsClientFile(allIban[i]);
+        std::vector<std::string> allIban = ibanFile.returnAllIban();
+        for(int i=0; i<allIban.size()-1; i++){
+            auto clientFile = new ClientFile(allIban[i]);
             std::vector<std::string> data = clientFile->getData();
-            accounts.push_back(new Account(data[0], data[1], allIban[i], std::stof(data[data.size()-1]), clientFile));
+            Movements::getInstance()->addIban(data[2]);
+            auto a = new Account(data[0], data[1], data[2], std::stof(data[data.size()-2]), clientFile);
+            accounts.insert(std::pair<std::string, Account*>(data[2], a));
         }
     }
 
-    void createNewAccount(std::string &name, std::string &surname);
+    Account* createNewAccount(User* user);
+
+    ~AccountManager(){
+        for (auto & account : accounts)
+            delete account.second;
+    }
 
     char* createIban(char* iban);
 };
-
 
 #endif //BANK_ACCOUNTMANAGER_H

@@ -8,42 +8,40 @@
 #include <string>
 #include <ctime>
 #include <list>
-#include "../File/MovementsClientFile.h"
-#include "../Observer.h"
+#include "../File/ClientFile.h"
+#include "Movements.h"
 
-//TODO: creare un account manager che con l'observer aggiorna la lista di iban
-
-class Account : public Observer{
+class Account{
 private:
     std::string userName;
     std::string userSurname;
     std::string iban;
     float amount;
-    MovementsClientFile *accountFile;
+    ClientFile* clientFile;
+    Movements* movements;
 
 public:
-    Account(std::string &name, std::string &surname, std::string &iban, float amount, MovementsClientFile* movementsClientFile) {
-        userSurname = name;
+    Account(const std::string &name,const std::string &surname, std::string &iban, float amount, ClientFile* clientFile) {
+        userName = name;
         userSurname = surname;
         this->amount = amount;
-        accountFile = movementsClientFile;
+        this->iban = iban;
+        this->clientFile = clientFile;
+        setMovements(movements);
     }
 
-    virtual ~Account(){
-        accountFile->closeFile();
-    };
+    virtual ~Account() = default;
 
-    std::string createIban();
+    void setMovements(Movements *movements);
 
-    void makeMovement(float money, bool typeOfMovement, std::string iban = "");
+    void addMoney(float money);
 
-    float getAmount();
+    void subMoney(float money);
 
-    const std::string &getIban() const;
+    const std::string& getAmount();
 
-    virtual void update(float money, bool addMoney) override;
-    virtual void attach() override;
-    virtual void detach() override;
+    const std::string& getIban();
+
 };
 
 #endif //BANK_ACCOUNT_H

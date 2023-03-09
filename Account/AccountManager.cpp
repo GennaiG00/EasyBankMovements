@@ -2,15 +2,29 @@
 //Created by utente on 05/03/2023.
 //
 
+#include <ctime>
 #include "AccountManager.h"
 #include "../Utility.h"
 
-void AccountManager::createNewAccount(std::string &name, std::string &surname) {
-        auto iban = new char[27];
+Account* AccountManager::createNewAccount(User* user) {
+    auto iban = new char[27];
+    std::string s;
+    do {
         iban[27] = '\0';
         iban = createIban(iban);
-        auto clientFile = new MovementsClientFile((std::string&)iban);
-        accounts.push_back(new Account(name, surname, (std::string&)iban, 0, clientFile));
+        s = iban;
+    }while(accounts.count(iban) != 0);
+    ibanFile.addIban(iban);
+    auto clientFile = new ClientFile(s);
+    clientFile->safeInformation(user->getName());
+    clientFile->safeInformation(user->getSurname());
+    clientFile->safeInformation(iban);
+    clientFile->safeInformation("0");
+    Movements::getInstance()->addIban(s);
+    accounts.insert(std::pair<std::string, Account*>(iban, new Account(user->getName(), user->getSurname(), s, 0, clientFile)));
+    user->setAccount(accounts.find(iban)->second);
+    delete[] iban;
+    return accounts.find(s)->second;
 }
 
 char* AccountManager::createIban(char* iban) {

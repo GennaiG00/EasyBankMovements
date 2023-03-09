@@ -2,44 +2,35 @@
 // Created by utente on 18/01/2023.
 //
 
-#include <sstream>
 #include "Account.h"
 #include "../Utility.h"
+#include <sstream>
 
-//void Account::makeMovement(float money, bool typeOfMovement, std::string iban) {
-//    std::stringstream stream;
-//    if(iban.empty()){
-//        if(typeOfMovement) {
-//            stream << movement->addMoneyToPersonalAccount(money);
-//            accountFile.addMovements(stream.str(), this->iban);
-//        }
-//        else{
-//            stream << movement->subMoneyToPersonalAccount(money);
-//            accountFile.addMovements(stream.str(), this->iban);
-//        }
-//    }else{
-//        if(typeOfMovement) {
-//            stream << movement->makeMovementFromAnotherAccount(money, iban);
-//            accountFile.addMovements(stream.str(), )
-//        }
-//    }
-//}
-
-//void Account::update(float money, bool addMoney) {
-//    if(addMoney)
-//        amount += money;
-//    else
-//        amount -= money;
-//    accountFile.addMovements(std::to_string(amount), iban);
-//}
-
-float Account::getAmount() {
-    amount = std::stof(accountFile->getAmount(this->iban));
-    accountFilecloseFile();
-    return 0;
+const std::string& Account::getAmount() {
+    return clientFile->getAmount();
 }
 
-const std::string &Account::getIban() const {
+const std::string& Account::getIban() {
     return iban;
+}
+
+void Account::addMoney(float money) {
+    amount += money;
+    std::stringstream s;
+    s << amount;
+    std::string sAmount = s.str();
+    clientFile->addMovements(sAmount, true);
+}
+
+void Account::subMoney(float money) {
+    amount -= money;
+    std::stringstream s;
+    s << amount;
+    std::string sAmount = s.str();
+    clientFile->addMovements(sAmount, false);
+}
+
+void Account::setMovements(Movements *movements) {
+    Account::movements = movements;
 }
 

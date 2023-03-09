@@ -6,35 +6,21 @@
 #define BANK_MOVEMENTS_H
 
 #include <string>
-#include <list>
-#include "../Subject.h"
+#include <vector>
 
-class Movements : public Subject{
+class Movements{
 private:
-    float balancingItem = 0;
-    std::list<Observer*> observers;
+    std::vector<std::string> iban;
+    Movements() = default;
+    static Movements* instance;
+
 public:
-    Movements(float balancingItem){
-        this->balancingItem = balancingItem;
-    }
+    void makeMovementFromAnotherAccount(float money, const std::string &toIban, const std::string &fromIban);
 
+    void addIban(const std::string& newIban);
 
-
-    float addMoneyToPersonalAccount(float money);
-
-    float subMoneyToPersonalAccount(float money);
-
-    float makeMovementFromAnotherAccount(float money, std::string &iban);
-
-    float getAmount(){
-        return balancingItem;
-    }
-
-    virtual void subscribe(Observer* o) override;
-    virtual void unsubscribe(Observer* o) override;
-    virtual void notify() override;
-
+    static Movements* getInstance();
 };
 
-
 #endif //BANK_MOVEMENTS_H
+

@@ -5,41 +5,35 @@
 #ifndef BANK_USER_H
 #define BANK_USER_H
 
-
 #include <string>
-#include "../Subject.h"
-#include "AccountManager.h"
+#include "Account.h"
 
-class User : public Subject{
+class User{
 private:
     std::string name;
     std::string surname;
     Account* account;
-    std::list<Observer*> observers;
 public:
     User(const std::string& name,const std::string& surname){
         this->name = name;
         this->surname = surname;
     };
 
-    void createAccount(){
-        AccountManager accountManager;
-        accountManager.createNewAccount(name, surname);
-    };
+    void setAccount(Account *account);
 
-    void addMoneyToPersonalAccount(float money);
+    void addFounds(float money);
 
-    void doBankTransfer(float money, std::string &iban);
+    void makeATransfer(float money,const std::string &iban);
 
-    void withdrawMoneyToPersonalAccount(float money);
+    void withdrawMoney(float money);
 
-    std::string& getAmountFromAccount();
+    const std::string& getIbanFromAccount();
 
+    const std::string& getAmountFromAccount();
 
-    virtual void subscribe(Observer* o) override;
-    virtual void unsubscribe(Observer* o) override;
-    virtual void notify() override;
+    const std::string &getName() const;
 
+    const std::string &getSurname() const;
 };
 
 

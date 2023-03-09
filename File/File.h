@@ -5,24 +5,24 @@
 #ifndef BANK_FILE_H
 #define BANK_FILE_H
 
-
 #include <cstdio>
 #include <string>
 #include <vector>
+#include <iostream>
+#include <filesystem>
 
 class File {
 private:
-    std::FILE *file;
-    std::string path = "../Bank/Data/";
-    char *fileString = new char();
-    char *combine = new char();
+    const char* path = "../Data/";
+    char* fileString = new char();
+    char* combine = new char();
 
 public:
     File() = default;
 
     std::FILE* openFile(const std::string &fileName);
 
-    void closeFile();
+    void closeFile(std::FILE* file);
 
     ~File() {
         delete combine;
@@ -30,11 +30,11 @@ public:
     }
 
 protected:
-    std::vector<std::string> getRowFile(const std::string &name);
+    std::vector<std::string> getRowFile(std::FILE* file);
 
-    char *read(const std::string &name);
+    char *read(std::FILE* file);
 
-    void updateFile(const std::string &update, const std::string &name);
+    void updateFile(const std::string &update, const std::string &name, std::FILE* file);
 };
 
 

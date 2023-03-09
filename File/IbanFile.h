@@ -10,7 +10,6 @@
 
 class IbanFile : public File{
 public:
-    static IbanFile* getInstance();
 
     bool checkIban(const std::string &iban);
 
@@ -19,10 +18,8 @@ public:
     std::vector<std::string> returnAllIban();
 
 private:
-    static IbanFile* instance;
     std::string ibanFileName = "IbanFile";
 };
 
-IbanFile* IbanFile::instance = nullptr;
 
 #endif //BANK_IBANFILE_H

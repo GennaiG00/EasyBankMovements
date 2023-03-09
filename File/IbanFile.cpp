@@ -5,27 +5,31 @@
 #include "IbanFile.h"
 
 bool IbanFile::checkIban(const std::string &iban) {
-        std::vector <std::string> tmpVector = getRowFile("iban");
-        for (int i = 0; i < tmpVector.size(); i++) {
-            if (iban == tmpVector[i]) {
-                return true;
-            }
+    std::FILE* file;
+    file = openFile(ibanFileName);
+    std::vector <std::string> tmpVector = getRowFile(file);
+    closeFile(file);
+    for (int i = 0; i < tmpVector.size(); i++) {
+        if (iban == tmpVector[i]) {
+            return true;
         }
-        throw std::runtime_error("Iban non trovato");
+    }
+    return false;
 }
 
 
 
 void IbanFile::addIban(const std::string &iban) {
-    updateFile(iban, "iban");
-}
-
-IbanFile *IbanFile::getInstance() {
-    if(instance == nullptr)
-        instance = new IbanFile();
-    return instance;
+    std::FILE* file;
+    file = openFile(ibanFileName);
+    updateFile(iban, ibanFileName, file);
+    closeFile(file);
 }
 
 std::vector<std::string> IbanFile::returnAllIban() {
-    return getRowFile(ibanFileName);
+    std::FILE* file;
+    file = openFile(ibanFileName);
+    auto rowFile = getRowFile(file);
+    closeFile(file);
+    return rowFile;
 }
