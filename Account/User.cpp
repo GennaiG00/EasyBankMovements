@@ -10,7 +10,11 @@ void User::addFounds(float money) {
 }
 
 void User::makeATransfer(float money,const std::string &iban) {
-    Movements::getInstance()->makeMovementFromAnotherAccount(money, iban, account->getIban());
+    try {
+        Movements::getInstance()->makeMovementFromAnotherAccount(money, iban, account->getIban());
+    }catch(const std::runtime_error &e){
+        e.what();
+    }
 }
 
 void User::withdrawMoney(float money) {

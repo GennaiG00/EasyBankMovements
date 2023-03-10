@@ -6,10 +6,12 @@
 #include "../File/ClientFile.h"
 #include <sstream>
 #include <iostream>
+#include "MovementsException.h"
 
 Movements* Movements::instance = nullptr;
 
 void Movements::makeMovementFromAnotherAccount(const float money,const std::string &toIban,const std::string &fromIban) {
+
     bool equal = false;
     for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){
         if(*ptr == toIban)
@@ -23,7 +25,7 @@ void Movements::makeMovementFromAnotherAccount(const float money,const std::stri
         clientFileFrom.addMovements(s.str(), false);
         clientFileTo.addMovements(s.str(), true);
     }else{
-        throw "iban non trovato";
+        throw MovementsException(toIban);
     }
 }
 
