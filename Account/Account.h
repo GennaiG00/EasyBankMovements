@@ -9,7 +9,7 @@
 #include <ctime>
 #include <list>
 #include "../File/ClientFile.h"
-#include "Movements.h"
+#include "Transactions.h"
 
 class Account{
 private:
@@ -18,7 +18,7 @@ private:
     std::string iban;
     float amount;
     ClientFile* clientFile;
-    Movements* movements;
+    Transactions* movements;
 
 public:
     Account(const std::string &name,const std::string &surname, std::string &iban, float amount, ClientFile* clientFile) {
@@ -32,7 +32,7 @@ public:
 
     virtual ~Account() = default;
 
-    void setMovements(Movements *movements);
+    void setMovements(Transactions *movements);
 
     void addMoney(float money);
 

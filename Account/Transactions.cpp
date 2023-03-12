@@ -2,15 +2,15 @@
 // Created by utente on 30/01/2023.
 //
 
-#include "Movements.h"
+#include "Transactions.h"
 #include "../File/ClientFile.h"
 #include <sstream>
 #include <iostream>
 #include "MovementsException.h"
 
-Movements* Movements::instance = nullptr;
+Transactions* Transactions::instance = nullptr;
 
-void Movements::makeMovementFromAnotherAccount(const float money,const std::string &toIban,const std::string &fromIban) {
+void Transactions::makeMovementFromAnotherAccount(const float money, const std::string &toIban, const std::string &fromIban) {
 
     bool equal = false;
     for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){
@@ -29,7 +29,7 @@ void Movements::makeMovementFromAnotherAccount(const float money,const std::stri
     }
 }
 
-void Movements::addIban(const std::string& newIban) {
+void Transactions::addIban(const std::string& newIban) {
     bool equal = false;
     for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){
         if(*ptr == newIban)
@@ -42,8 +42,8 @@ void Movements::addIban(const std::string& newIban) {
         std::cout << i;
 }
 
-Movements* Movements::getInstance() {
+Transactions* Transactions::getInstance() {
     if(instance == nullptr)
-        instance = new Movements;
+        instance = new Transactions;
     return instance;
 }

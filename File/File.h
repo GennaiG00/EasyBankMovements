@@ -16,6 +16,7 @@ private:
     const char* path = "../Data/";
     char* fileString = new char();
     char* combine = new char();
+    char *read(std::FILE* file);
 
 public:
     File() = default;
@@ -29,10 +30,9 @@ public:
         delete fileString;
     }
 
-protected:
     std::vector<std::string> getRowFile(std::FILE* file);
 
-    char *read(std::FILE* file);
+protected:
 
     void updateFile(const std::string &update, const std::string &name, std::FILE* file);
 };

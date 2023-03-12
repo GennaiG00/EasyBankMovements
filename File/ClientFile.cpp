@@ -30,7 +30,7 @@ void ClientFile::addMovements(const std::string &money, bool add) {
     closeFile(file);
 }
 
-std::string ClientFile::getAmount() {
+const std::string& ClientFile::getAmount() {
     std::FILE* file;
     file = openFile(iban);
     std::vector <std::string> tmpVector = getRowFile(file);

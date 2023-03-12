@@ -20,10 +20,9 @@ Account* AccountManager::createNewAccount(User* user) {
     clientFile->safeInformation(user->getSurname());
     clientFile->safeInformation(iban);
     clientFile->safeInformation("0");
-    Movements::getInstance()->addIban(s);
+    Transactions::getInstance()->addIban(s);
     accounts.insert(std::pair<std::string, Account*>(iban, new Account(user->getName(), user->getSurname(), s, 0, clientFile)));
     user->setAccount(accounts.find(iban)->second);
-    delete[] iban;
     return accounts.find(s)->second;
 }
 

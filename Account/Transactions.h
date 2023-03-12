@@ -2,25 +2,25 @@
 // Created by utente on 30/01/2023.
 //
 
-#ifndef BANK_MOVEMENTS_H
-#define BANK_MOVEMENTS_H
+#ifndef BANK_TRANSACTIONS_H
+#define BANK_TRANSACTIONS_H
 
 #include <string>
 #include <vector>
 
-class Movements{
+class Transactions{
 private:
     std::vector<std::string> iban;
-    Movements() = default;
-    static Movements* instance;
+    Transactions() = default;
+    static Transactions* instance;
 
 public:
     void makeMovementFromAnotherAccount(float money, const std::string &toIban, const std::string &fromIban);
 
     void addIban(const std::string& newIban);
 
-    static Movements* getInstance();
+    static Transactions* getInstance();
 };
 
-#endif //BANK_MOVEMENTS_H
+#endif //BANK_TRANSACTIONS_H
 

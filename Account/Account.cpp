@@ -30,7 +30,7 @@ void Account::subMoney(float money) {
     clientFile->addMovements(sAmount, false);
 }
 
-void Account::setMovements(Movements *movements) {
+void Account::setMovements(Transactions *movements) {
     Account::movements = movements;
 }
 

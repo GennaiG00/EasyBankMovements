@@ -20,7 +20,7 @@ public:
 
     void addMovements(const std::string &money, bool add);
 
-    std::string getAmount();
+    const std::string& getAmount();
 
     std::vector<std::string> getData();
 
