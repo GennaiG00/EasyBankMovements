@@ -12,6 +12,8 @@
 Movements* Movements::instance = nullptr;
 
 void Movements::makeMovementFromAnotherAccount(const float money, const std::string &toIban, const std::string &fromIban) {
+    if(toIban == fromIban)
+        throw std::invalid_argument("L'IBAN di partenza e quello di destinazione sono uguali!");
     time_t curr_time;
     curr_time = time(NULL);
     auto tm = ctime(&curr_time);
@@ -35,6 +37,7 @@ void Movements::makeMovementFromAnotherAccount(const float money, const std::str
         throw MovementsException(toIban);
     }
 }
+
 void Movements::addIban(const std::string& newIban) {
     bool equal = false;
     for(auto ptr = iban.begin(); ptr < iban.end(); ptr++){

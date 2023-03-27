@@ -4,6 +4,7 @@
 
 #include "gtest\gtest.h"
 #include "../Account/AccountManager.h"
+#include "../Account/MovementsException.h"
 
 
 class BankSuit : public ::testing::Test {
@@ -31,19 +32,40 @@ TEST_F(BankSuit, addSubMoneyToMyAccount) {
     EXPECT_EQ(user->getAmountFromAccount("lavoro"),"50");
 }
 
-TEST_F(BankSuit, errorNoMoney){
-    user->withdrawMoney(50, "casa");
+TEST_F(BankSuit, noMoneyException){
+    EXPECT_THROW(user->withdrawMoney(50, "casa"), MovementsException);
 }
 
 TEST_F(BankSuit, makeTransfer) {
     auto userB = new User("Marco", "Polo");
-    user->makeATransfer(50, userB->getIbanFromAccount());
-    EXPECT_EQ(user->getAmountFromAccount(),"0");
-    EXPECT_EQ(userB->getAmountFromAccount(), "50");
+    accountManager.createNewAccount(userB, "ufficio");
+    user->makeATransfer(50, user->getIbanFromAccount("lavoro"), userB->getIbanFromAccount("ufficio"));
+    EXPECT_EQ(user->getAmountFromAccount("lavoro"),"0");
+    EXPECT_EQ(userB->getAmountFromAccount("ufficio"), "50");
 }
 
 TEST_F(BankSuit, checkAmountOnFile){
     File file;
-    std::vector<std::string> data = file.getRowFile(file.openFile(user->getIbanFromAccount()));
-    EXPECT_EQ(data[data.size()-2], user->getAmountFromAccount());
+    std::vector<std::string> data = file.getRowFile(file.openFile(user->getIbanFromAccount("ufficio")));
+    EXPECT_EQ(data[data.size()-2], user->getAmountFromAccount("lavoro"));
+}
+
+TEST_F(BankSuit, noIbanException){
+    EXPECT_THROW(user->makeATransfer(10, user->getIbanFromAccount("lavoro"), "dforfjaiwf"), std::invalid_argument);
+}
+
+TEST_F(BankSuit, eqIban){
+    EXPECT_THROW(user->makeATransfer(10 ,user->getIbanFromAccount("lavoro"), user->getIbanFromAccount("lavoro")), std::invalid_argument);
+}
+
+TEST_F(BankSuit, getAllMovements){
+    File* fileClass = new File();
+    std::vector<std::string> allMovements = user->getAllMovements("lavoro");
+    std::string txt = ".txt";
+    std::string fileName = user->getIbanFromAccount("lavoro") + txt;
+    std::FILE* file;
+    fileClass->openFile(fileName);
+    std::vector<std::string> allRow = fileClass->getRowFile(file);
+    fileClass->closeFile(file);
+    EXPECT_EQ(allMovements[0], allRow[5]);
 }

@@ -19,9 +19,9 @@ Account* AccountManager::createNewAccount(User* user,const std::string& accountN
     auto clientFile = new ClientFile(s);
     auto find = user->getAccountsName();
     if(accountName.empty()){
-        throw std::invalid_argument("Name of Account is empty!!");
+        throw std::invalid_argument("Nome dell'account vuoto");
     }else if(std::find(find.begin(), find.end(), accountName) != find.end()) {
-        throw std::invalid_argument("Name of Account already exists!!");
+        throw std::invalid_argument("Il nome dell'account esiste già");
     }
     clientFile->safeInformation(accountName);
     clientFile->safeInformation(user->getName());

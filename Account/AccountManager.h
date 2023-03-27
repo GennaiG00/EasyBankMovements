@@ -42,8 +42,6 @@ public:
 
     Account* createNewAccount(User* user,const std::string& accountName);
 
-    Account* getAccountToUser(std::string& iban);
-
     ~AccountManager() = default;
 };
 
