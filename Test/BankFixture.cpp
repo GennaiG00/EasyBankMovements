@@ -11,23 +11,28 @@ protected:
     AccountManager accountManager;
     User* user = new User("Gian_Maria", "Gennai");
     BankSuit(){
-        accountManager.createNewAccount(user);
+        accountManager.createNewAccount(user,"casa");
+        accountManager.createNewAccount(user, "lavoro");
     }
 };
 
 TEST_F(BankSuit, safeAccountData) {
     File file;
-    std::vector<std::string> data = file.getRowFile(file.openFile(user->getIbanFromAccount()));
-    EXPECT_EQ(data[0],"Gian_Maria");
-    EXPECT_EQ(data[1],"Gennai");
-    EXPECT_EQ(data[2],user->getIbanFromAccount());
+    std::vector<std::string> data = file.getRowFile(file.openFile(user->getIbanFromAccount("lavoro")));
+    EXPECT_EQ(data[1],"Gian_Maria");
+    EXPECT_EQ(data[2],"Gennai");
+    EXPECT_EQ(data[0],user->getIbanFromAccount("lavoro"));
 }
 
 TEST_F(BankSuit, addSubMoneyToMyAccount) {
-    user->addFounds(100);
-    EXPECT_EQ(user->getAmountFromAccount(),"100");
-    user->withdrawMoney(50);
-    EXPECT_EQ(user->getAmountFromAccount(),"50");
+    user->addFounds(100, "lavoro");
+    EXPECT_EQ(user->getAmountFromAccount("lavoro"),"100");
+    user->withdrawMoney(50,"lavoro");
+    EXPECT_EQ(user->getAmountFromAccount("lavoro"),"50");
+}
+
+TEST_F(BankSuit, errorNoMoney){
+    user->withdrawMoney(50, "casa");
 }
 
 TEST_F(BankSuit, makeTransfer) {

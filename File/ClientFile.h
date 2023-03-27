@@ -18,11 +18,13 @@ public:
 
     void safeInformation(const std::string &info);
 
-    void addMovements(const std::string &money, bool add);
+    void addMovements(const std::string &movements, float money , bool add);
 
-    const std::string& getAmount();
+    std::string getAmount();
 
     std::vector<std::string> getData();
+
+    std::vector<std::string> getMovements(char* cDate = nullptr);
 
 };
 

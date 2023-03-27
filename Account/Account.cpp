@@ -5,6 +5,8 @@
 #include "Account.h"
 #include "../Utility.h"
 #include <sstream>
+#include <ctime>
+
 
 const std::string& Account::getAmount() {
     return clientFile->getAmount();
@@ -15,22 +17,35 @@ const std::string& Account::getIban() {
 }
 
 void Account::addMoney(float money) {
+    time_t curr_time;
+    curr_time = time(NULL);
+    auto tm = ctime(&curr_time);
+    std::string sDate = tm;
+    sDate.pop_back();
     amount += money;
     std::stringstream s;
     s << amount;
-    std::string sAmount = s.str();
-    clientFile->addMovements(sAmount, true);
+    std::string sMovement = "Add " + s.str() + " in " + sDate;
+    clientFile->addMovements(sMovement, money, true);
 }
 
 void Account::subMoney(float money) {
+    time_t curr_time;
+    curr_time = time(NULL);
+    auto tm = ctime(&curr_time);
+    std::string sDate = tm;
+    sDate.pop_back();
     amount -= money;
     std::stringstream s;
     s << amount;
-    std::string sAmount = s.str();
-    clientFile->addMovements(sAmount, false);
+    std::string sMovement = "Withdraw " + s.str() + " in " + sDate;
+    clientFile->addMovements(sMovement, money , false);
 }
 
-void Account::setMovements(Transactions *movements) {
-    Account::movements = movements;
+std::vector<std::string> Account::returnMovements(char* date) {
+    return clientFile->getMovements(date);
 }
 
+const std::string &Account::getAccountName() const {
+    return accountName;
+}

@@ -5,8 +5,9 @@
 #include <ctime>
 #include "AccountManager.h"
 #include "../Utility.h"
+#include <algorithm>
 
-Account* AccountManager::createNewAccount(User* user) {
+Account* AccountManager::createNewAccount(User* user,const std::string& accountName) {
     auto iban = new char[27];
     std::string s;
     do {
@@ -16,12 +17,19 @@ Account* AccountManager::createNewAccount(User* user) {
     }while(accounts.count(iban) != 0);
     ibanFile.addIban(iban);
     auto clientFile = new ClientFile(s);
+    auto find = user->getAccountsName();
+    if(accountName.empty()){
+        throw std::invalid_argument("Name of Account is empty!!");
+    }else if(std::find(find.begin(), find.end(), accountName) != find.end()) {
+        throw std::invalid_argument("Name of Account already exists!!");
+    }
+    clientFile->safeInformation(accountName);
     clientFile->safeInformation(user->getName());
     clientFile->safeInformation(user->getSurname());
     clientFile->safeInformation(iban);
     clientFile->safeInformation("0");
-    Transactions::getInstance()->addIban(s);
-    accounts.insert(std::pair<std::string, Account*>(iban, new Account(user->getName(), user->getSurname(), s, 0, clientFile)));
+    Movements::getInstance()->addIban(s);
+    accounts.insert(std::pair<std::string, Account*>(iban, new Account(user->getName(), user->getSurname(), s, 0, clientFile, accountName)));
     user->setAccount(accounts.find(iban)->second);
     return accounts.find(s)->second;
 }
